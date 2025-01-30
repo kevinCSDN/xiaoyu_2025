@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #
 # Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
@@ -11,39 +12,46 @@
 #
 
 # Uncomment a feed source
-#sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
-#删除feeds自带mosdns、v2ray-geodata
+#sed -i '1i src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
+
+#rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box}
+
+sed -i '1i src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
+sed -i '2i src-git small https://github.com/soapmancn/small' feeds.conf.default
+sed -i '3i src-git helloworld https://github.com/fw876/helloworld.git' feeds.conf.default
+#sed -i '3i src-git nas https://github.com/linkease/nas-packages.git;master' feeds.conf.default
+#sed -i '4i src-git nas_luci https://github.com/linkease/nas-packages-luci.git;main' feeds.conf.default
 ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-mosdns && rm -rf feeds/packages/net/{alist,adguardhome,mosdns,smartdns}
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
-rm -rf ./feeds/packages/net/mosdns
-rm -rf feeds/packages/net/v2ray-geodata
-#rm -rf feeds/luci/themes/luci-theme-argon
 
-
-
-
-
-
-
-
-#克隆passwall环境插件 单独克隆插件有助于成功，前面拉取kenzo的small库作为依赖就没编译成功
-git clone https://github.com/xiaorouji/openwrt-passwall-packages.git package/pwpage
-
+#克隆passwall环境插件
+git clone https://github.com/xiaorouji/openwrt-passwall-packages package/helloworld
+git clone https://github.com/xiaorouji/openwrt-passwall package/small1
+git clone https://github.com/vernesong/OpenClash package/openclash
+#git clone --depth=1 -b 18.06 https://github.com/kiddin9/luci-theme-edge package/luci-theme-edge
+#git clone --depth=1 https://github.com/derisamedia/luci-theme-alpha package/luci-theme-alpha
 #克隆的源码放在small文件夹,预先建立small文件夹
 mkdir package/small
 pushd package/small
 
 #克隆源码
+#删除feeds自带mosdns、v2ray-geodata
+#rm -rf ./feeds/packages/net/mosdns
+#rm -rf feeds/packages/net/v2ray-geodata
+rm -rf feeds/luci/themes/luci-theme-argon
+#rm -rf feeds/luci/themes/luci-theme-bootstrap
+rm -rf feeds/luci/themes/luci-app-argon-config
 
 #passwall2
 git clone -b main --depth 1 https://github.com/xiaorouji/openwrt-passwall2.git
-git clone -b main --depth 1 https://github.com/xiaorouji/openwrt-passwall.git
+#git clone -b luci-smartdns-dev --depth 1 https://github.com/xiaorouji/openwrt-passwall.git
+#git clone -b main --depth 1 https://github.com/bcseputetto/openwrt-passwall.git
+#https://github.com/bcseputetto/openwrt-passwall
 #mosdns
 #git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git
-git clone --depth=1 https://github.com/fw876/helloworld.git
-#git clone https://github.com/kevinCSDN/lua-maxminddb.git  #git lua-maxminddb 依赖
-
-#git clone https://github.com/kevinCSDN/luci-app-vssr-plus.git  
-
+#git clone --depth=1 https://github.com/fw876/helloworld.git
+git clone --depth=1 -b master https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
+git clone --depth=1 -b master https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
+#git clone --depth=1 -b main https://github.com/morytyann/OpenWrt-mihomo.git package/mihomo
 popd
