@@ -18,9 +18,12 @@
 
 sed -i '1i src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
 sed -i '2i src-git small https://github.com/soapmancn/small' feeds.conf.default
-sed -i '3i src-git helloworld https://github.com/fw876/helloworld.git' feeds.conf.default
 #sed -i '3i src-git nas https://github.com/linkease/nas-packages.git;master' feeds.conf.default
 #sed -i '4i src-git nas_luci https://github.com/linkease/nas-packages-luci.git;main' feeds.conf.default
+
+注释掉新版luci
+sed -i 's|^#src-git luci https://github.com/coolsnowwolf/luci$|src-git luci https://github.com/coolsnowwolf/luci|' feeds.conf.default
+sed -i 's|^src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-23.05$|#src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-23.05|' feeds.conf.default
 ./scripts/feeds update -a && rm -rf feeds/luci/applications/luci-app-mosdns && rm -rf feeds/packages/net/{alist,adguardhome,mosdns,smartdns}
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
@@ -32,8 +35,8 @@ git clone https://github.com/vernesong/OpenClash package/openclash
 #git clone --depth=1 -b 18.06 https://github.com/kiddin9/luci-theme-edge package/luci-theme-edge
 #git clone --depth=1 https://github.com/derisamedia/luci-theme-alpha package/luci-theme-alpha
 #克隆的源码放在small文件夹,预先建立small文件夹
-mkdir package/small
-pushd package/small
+#mkdir package/small
+#pushd package/small
 
 #克隆源码
 #删除feeds自带mosdns、v2ray-geodata
@@ -44,14 +47,14 @@ rm -rf feeds/luci/themes/luci-theme-argon
 rm -rf feeds/luci/themes/luci-app-argon-config
 
 #passwall2
-git clone -b main --depth 1 https://github.com/xiaorouji/openwrt-passwall2.git
+#git clone -b main --depth 1 https://github.com/xiaorouji/openwrt-passwall2.git
 #git clone -b luci-smartdns-dev --depth 1 https://github.com/xiaorouji/openwrt-passwall.git
 #git clone -b main --depth 1 https://github.com/bcseputetto/openwrt-passwall.git
 #https://github.com/bcseputetto/openwrt-passwall
 #mosdns
 #git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git
 #git clone --depth=1 https://github.com/fw876/helloworld.git
-git clone --depth=1 -b master https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
-git clone --depth=1 -b master https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
+git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
+git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
 #git clone --depth=1 -b main https://github.com/morytyann/OpenWrt-mihomo.git package/mihomo
-popd
+#popd
